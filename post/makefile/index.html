@@ -1,0 +1,295 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title> Makefile | ycf-xyz</title>
+<link rel="shortcut icon" href="https://FrankStrickland.github.io/favicon.ico?v=1717514420230">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://FrankStrickland.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title=" Makefile | ycf-xyz - Atom Feed" href="https://FrankStrickland.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="target ... : prerequisites ...
+    recipe
+    ...
+    ...
+
+
+
+target
+可以是一个 object file（目标文件），也可以是一个可执行文件，还可以是一个标签（label）。..." />
+    <meta name="keywords" content="111" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://FrankStrickland.github.io">
+  <img class="avatar" src="https://FrankStrickland.github.io/images/avatar.png?v=1717514420230" alt="">
+  </a>
+  <h1 class="site-title">
+    ycf-xyz
+  </h1>
+  <p class="site-description">
+    Flowing water doesn't compete for precedence, it competes for heft.
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/post/home" class="menu">
+          Homescreen
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          Tag
+        </a>
+      
+    
+      
+        <a href="/" class="menu">
+          Note
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          Archive
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          About
+        </a>
+      
+    
+      
+        <a href="/test" class="menu">
+          test
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+               Makefile
+            </h2>
+            <div class="post-info">
+              <span>
+                2023-10-21
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://FrankStrickland.github.io/tag/4NEtmP4aD/" class="post-tag">
+                  # 111
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <pre><code class="language-makefile">target ... : prerequisites ...
+    recipe
+    ...
+    ...
+</code></pre>
+<ul>
+<li>
+<p>target</p>
+<p>可以是一个 object file（目标文件），也可以是一个可执行文件，还可以是一个标签（label）。对于标签这种特性，在后续的“伪目标”章节中会有叙述。</p>
+</li>
+<li>
+<p>prerequisites</p>
+<p>生成该 target 所依赖的文件和/或target。<strong>prerequisites中如果有一个以上的文件比target文件要新的话，recipe所定义的命令就会执行</strong></p>
+</li>
+<li>
+<p>recipe</p>
+<p>该 target 要执行的命令（任意的shell命令）<strong>在 Makefile 中的命令，必须要以 <code>Tab</code> 键开始</strong></p>
+</li>
+</ul>
+<p>这就是 makefile 的规则也就是 makefile 中<strong>最核心</strong>的内容</p>
+<hr>
+<ul>
+<li>
+<p>反斜杠 （ \ ）是换行符的意思</p>
+</li>
+<li>
+<p><strong>make</strong> 是如何工作的</p>
+<ol>
+<li>
+<p>make会在当前目录下寻找 Makefile / makefile</p>
+</li>
+<li>
+<p>if finds，它会找第一个目标文件（target）， 并把这个文件作为最终的目标文件</p>
+</li>
+<li>
+<p>if it doesn't find target, 或者target所依赖的 .<strong>o</strong> files 的文件修改时间要比 target 新，它就会执行后面定义的命令来生成target</p>
+</li>
+<li>
+<p>if .<strong>o</strong> files don't exist , make 会在当前文件寻找目标为 .o 文件的依赖性，如果找到规则就按照该规则生成  .o files (it's similar to the process of stack)</p>
+</li>
+<li>
+<p>bec .c and .h files exist, 于是 make 生成 .o 然后生成make的终极任务</p>
+</li>
+</ol>
+</li>
+<li>
+<p>变量  （类似c语言里的宏）</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697473696111.png" alt="1697473696111" loading="lazy"></figure>
+</li>
+<li>
+<p>自动推导  <strong>(其是 make 的隐式规则)</strong></p>
+<p>只要 make 看到一个 <code>.o</code> 文件，它就会自动的把 <code>.c</code> 文件加在依赖关系中</p>
+</li>
+<li>
+<p>伪目标    （ <code>.PHONY</code> 表示 <code>clean</code> 是个伪目标文件）</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697473959893.png" alt="1697473959893" loading="lazy"></figure>
+</li>
+<li>
+<p>清空目录     （在 <code>rm</code> 命令前面加小减号是，也许某些文件出现问题，但继续执行 <strong>|</strong> clean 从来都是放在文件<strong>最后</strong>）</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697474194873.png" alt="1697474194873" loading="lazy"></figure>
+</li>
+<li>
+<p>环境变量 <strong>MAKEFILES</strong></p>
+<p>如果当前环境中定义了环境变量 <code>MAKEFILES</code> ，那么make会把这个变量中的值做一个类似于 <code>include</code> 的动作。这个变量中的值是其它的 Makefile ，用空格分隔。只是，它和 <code>include</code> 不同的是，从这个环境变量中引入的Makefile的“目标”不会起作用，如果环境变量中定义的文件发现错误，make也会不理。</p>
+<p>但是在这里我还是建议不要使用这个环境变量，因为只要这个变量一被定义，那么当你使用 make 时，所有的Makefile 都会受到它的影响，这绝不是你想看到的。在这里提这个事，只是为了告诉大家，也许有时候你的 Makefile出现了怪事，那么你可以看看当前环境中有没有定义这个变量。</p>
+</li>
+<li>
+<p>语法</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697528626321.png" alt="1697528626321" loading="lazy"></figure>
+<p>command 是命令行，如果其不与 “targets : prerequisites” 在一行，那么必须以 <strong>Tab</strong> 开头，如果在一行，用分号间隔</p>
+</li>
+<li>
+<p>文件搜寻</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697530279559.png" alt="1697530279559" loading="lazy"></figure>
+<p>目录由“冒号”分隔</p>
+</li>
+<li>
+<p>自动生成依赖性</p>
+<p>大多数C/C++编译器都支持“-M”的选项，即自动找寻源文件中包含的头文件，并生成一个依赖关系，如果使用GNU的C/C++编译器，你得用 <code>-MM</code> 参数，不然， <code>-M</code> 参数会把一些标准库的头文件也包含进来</p>
+</li>
+</ul>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://FrankStrickland.github.io/post/bian-yi-wen-jian/">
+              <h3 class="post-title">
+                Compile files
+              </h3>
+            </a>
+          </div>
+        
+
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '22186d948431189dcaed',
+    clientSecret: '24716638ff795952677320682475e6a03c3fb8d1',
+    repo: 'FrankStrickland.github.io',
+    owner: 'FrankStrickland',
+    admin: ['FrankStrickland'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+          
+
+          
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://FrankStrickland.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

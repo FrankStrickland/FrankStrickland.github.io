@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://FrankStrickland.github.io</id>
+    <title>ycf-xyz</title>
+    <updated>2024-06-04T15:20:25.592Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://FrankStrickland.github.io"/>
+    <link rel="self" href="https://FrankStrickland.github.io/atom.xml"/>
+    <subtitle>Flowing water doesn&apos;t compete for precedence, it competes for heft.</subtitle>
+    <logo>https://FrankStrickland.github.io/images/avatar.png</logo>
+    <icon>https://FrankStrickland.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2024, ycf-xyz</rights>
+    <entry>
+        <title type="html"><![CDATA[Verilog]]></title>
+        <id>https://FrankStrickland.github.io/post/test/</id>
+        <link href="https://FrankStrickland.github.io/post/test/">
+        </link>
+        <updated>2023-10-22T06:14:11.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>
+<p>In verilog statements are executed concurrently, all statements in a module are executed in <strong>non-sequential</strong> order, and <strong>if</strong> statements are <strong>sequentially executed</strong> statements.</p>
+</li>
+<li>
+<p>Verilog specifies that sequential execution statements must be contained in <strong>always</strong> blocks.</p>
+</li>
+<li>
+<p>the <strong>∗</strong> sign will automatically include all signals appearing to the right of a statement or conditional expression in the always block</p>
+</li>
+<li>
+<p>the <strong>output signals</strong> in the always block must be described as type <strong>reg</strong></p>
+</li>
+<li>
+<p>the <strong>if</strong> statement is a commonly used conditional statement in Verilog HDL and can be paired with the <strong>else</strong> statement or used alone.</p>
+<p>However, if an <strong>if</strong> statement is used without an <strong>else</strong> statement, this is what happens: the compiler determines if the conditional expression following the <strong>if</strong> is satisfied, and if it is satisfied, then executes the subsequent statement, and if the conditional expression is not satisfied, the compiler automatically generates a register to hold the current value, and keeps the past value of the output when the condition is not satisfied. This creates extra registers that are not designed by the user. It is therefore recommended that the reader pair the <strong>if</strong> statement with an <strong>else</strong> statement. This prevents the creation of redundant registers.🤣</p>
+</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ Makefile]]></title>
+        <id>https://FrankStrickland.github.io/post/makefile/</id>
+        <link href="https://FrankStrickland.github.io/post/makefile/">
+        </link>
+        <updated>2023-10-20T18:16:03.000Z</updated>
+        <content type="html"><![CDATA[<pre><code class="language-makefile">target ... : prerequisites ...
+    recipe
+    ...
+    ...
+</code></pre>
+<ul>
+<li>
+<p>target</p>
+<p>可以是一个 object file（目标文件），也可以是一个可执行文件，还可以是一个标签（label）。对于标签这种特性，在后续的“伪目标”章节中会有叙述。</p>
+</li>
+<li>
+<p>prerequisites</p>
+<p>生成该 target 所依赖的文件和/或target。<strong>prerequisites中如果有一个以上的文件比target文件要新的话，recipe所定义的命令就会执行</strong></p>
+</li>
+<li>
+<p>recipe</p>
+<p>该 target 要执行的命令（任意的shell命令）<strong>在 Makefile 中的命令，必须要以 <code>Tab</code> 键开始</strong></p>
+</li>
+</ul>
+<p>这就是 makefile 的规则也就是 makefile 中<strong>最核心</strong>的内容</p>
+<hr>
+<ul>
+<li>
+<p>反斜杠 （ \ ）是换行符的意思</p>
+</li>
+<li>
+<p><strong>make</strong> 是如何工作的</p>
+<ol>
+<li>
+<p>make会在当前目录下寻找 Makefile / makefile</p>
+</li>
+<li>
+<p>if finds，它会找第一个目标文件（target）， 并把这个文件作为最终的目标文件</p>
+</li>
+<li>
+<p>if it doesn't find target, 或者target所依赖的 .<strong>o</strong> files 的文件修改时间要比 target 新，它就会执行后面定义的命令来生成target</p>
+</li>
+<li>
+<p>if .<strong>o</strong> files don't exist , make 会在当前文件寻找目标为 .o 文件的依赖性，如果找到规则就按照该规则生成  .o files (it's similar to the process of stack)</p>
+</li>
+<li>
+<p>bec .c and .h files exist, 于是 make 生成 .o 然后生成make的终极任务</p>
+</li>
+</ol>
+</li>
+<li>
+<p>变量  （类似c语言里的宏）</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697473696111.png" alt="1697473696111" loading="lazy"></figure>
+</li>
+<li>
+<p>自动推导  <strong>(其是 make 的隐式规则)</strong></p>
+<p>只要 make 看到一个 <code>.o</code> 文件，它就会自动的把 <code>.c</code> 文件加在依赖关系中</p>
+</li>
+<li>
+<p>伪目标    （ <code>.PHONY</code> 表示 <code>clean</code> 是个伪目标文件）</p>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697473959893.png" alt="1697473959893" loading="lazy"></figure>
+</li>
+<li>
+<p>清空目录     （在 <code>rm</code> 命令前面加小减号是，也许某些文件出现问题，但继续执行 <strong>|</strong> clean 从来都是放在文件<strong>最后</strong>）</p>
+<figure data-type="image" tabindex="3"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697474194873.png" alt="1697474194873" loading="lazy"></figure>
+</li>
+<li>
+<p>环境变量 <strong>MAKEFILES</strong></p>
+<p>如果当前环境中定义了环境变量 <code>MAKEFILES</code> ，那么make会把这个变量中的值做一个类似于 <code>include</code> 的动作。这个变量中的值是其它的 Makefile ，用空格分隔。只是，它和 <code>include</code> 不同的是，从这个环境变量中引入的Makefile的“目标”不会起作用，如果环境变量中定义的文件发现错误，make也会不理。</p>
+<p>但是在这里我还是建议不要使用这个环境变量，因为只要这个变量一被定义，那么当你使用 make 时，所有的Makefile 都会受到它的影响，这绝不是你想看到的。在这里提这个事，只是为了告诉大家，也许有时候你的 Makefile出现了怪事，那么你可以看看当前环境中有没有定义这个变量。</p>
+</li>
+<li>
+<p>语法</p>
+<figure data-type="image" tabindex="4"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697528626321.png" alt="1697528626321" loading="lazy"></figure>
+<p>command 是命令行，如果其不与 “targets : prerequisites” 在一行，那么必须以 <strong>Tab</strong> 开头，如果在一行，用分号间隔</p>
+</li>
+<li>
+<p>文件搜寻</p>
+<figure data-type="image" tabindex="5"><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1697530279559.png" alt="1697530279559" loading="lazy"></figure>
+<p>目录由“冒号”分隔</p>
+</li>
+<li>
+<p>自动生成依赖性</p>
+<p>大多数C/C++编译器都支持“-M”的选项，即自动找寻源文件中包含的头文件，并生成一个依赖关系，如果使用GNU的C/C++编译器，你得用 <code>-MM</code> 参数，不然， <code>-M</code> 参数会把一些标准库的头文件也包含进来</p>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Compile files]]></title>
+        <id>https://FrankStrickland.github.io/post/bian-yi-wen-jian/</id>
+        <link href="https://FrankStrickland.github.io/post/bian-yi-wen-jian/">
+        </link>
+        <updated>2023-10-20T16:13:59.000Z</updated>
+        <content type="html"><![CDATA[<!-- more -->
+<ol>
+<li><img src="https://raw.githubusercontent.com/FrankStrickland/blogPicGo/main/1689251227366.png" alt="1689251227366" loading="lazy"></li>
+<li>gcc command 的 -o 选项指定了输出文件的名称，若没有-o 则默认生成a.out文件</li>
+</ol>
+]]></content>
+    </entry>
+</feed>
